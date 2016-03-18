@@ -1,4 +1,4 @@
-package com.appstoremarketresesearch.simplecolorpicker.view;
+package com.appstoremarketresearch.simplecolorpicker.view;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;

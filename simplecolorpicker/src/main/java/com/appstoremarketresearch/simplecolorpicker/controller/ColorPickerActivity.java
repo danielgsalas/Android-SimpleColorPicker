@@ -1,4 +1,4 @@
-package com.appstoremarketresesearch.simplecolorpicker.controller;
+package com.appstoremarketresearch.simplecolorpicker.controller;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.appstoremarketresesearch.simplecolorpicker.event;
+package com.appstoremarketresearch.simplecolorpicker.event;
 
 /**
  * ColorPickerEventListener
