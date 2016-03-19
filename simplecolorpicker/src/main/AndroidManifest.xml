@@ -9,6 +9,12 @@
             android:label="@string/screen_label"
             android:theme="@android:style/Theme.Dialog" >
         </activity>
+        <receiver android:name=".event.ColorPickerEventNotifier"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="COLOR_SELECTED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
