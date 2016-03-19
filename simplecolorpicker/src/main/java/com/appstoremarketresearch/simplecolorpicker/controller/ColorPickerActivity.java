@@ -1,11 +1,16 @@
 package com.appstoremarketresearch.simplecolorpicker.controller;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.appstoremarketresearch.simplecolorpicker.R;
+import com.appstoremarketresearch.simplecolorpicker.event.ColorPickerEventType;
 
 /*
  * Change extension from AppCompatActivity to Activity, otherwise get:
@@ -14,12 +19,33 @@ import com.appstoremarketresearch.simplecolorpicker.R;
  */
 public class ColorPickerActivity extends Activity {
 
+
+    /**
+     * onColorSelected
+     */
+    public void onColorSelected(View view) {
+
+        Drawable background = view.getBackground();
+
+        if (background instanceof ColorDrawable) {
+
+            int colorValue = ((ColorDrawable)background).getColor();
+
+            Intent intent = new Intent();
+            intent.setAction(ColorPickerEventType.COLOR_SELECTED.name());
+            intent.putExtra("colorValue", colorValue);
+            this.sendBroadcast(intent);
+
+            // close the color picker
+            this.finish();
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_color_picker);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
