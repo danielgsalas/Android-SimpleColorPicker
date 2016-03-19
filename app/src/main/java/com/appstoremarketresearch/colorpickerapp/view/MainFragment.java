@@ -4,11 +4,12 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.appstoremarketresearch.colorpickerapp.R;
 import com.appstoremarketresearch.simplecolorpicker.event.ColorPickerEventListener;
@@ -23,7 +24,11 @@ public class MainFragment
 
     private Button mSelectColorButton;
 
-    private static String LOG_TAG = MainFragment.class.getSimpleName();
+    /**
+     * Save the selected color value to avoid the difficulty of trying
+     * to extract the color from the button's drawable selector.
+     */
+    private int mSelectedColorValue;
 
     /*
      * Find the id of the drawable button for the color value.
@@ -78,11 +83,25 @@ public class MainFragment
         return buttonTextColorValue;
     }
 
+    /**
+     * getSelectedColorIntValue()
+     */
+    public int getSelectedColorIntValue() {
+        return mSelectedColorValue;
+    }
+
     @Override
     public void onColorSelected(int colorValue) {
 
-        if (mSelectColorButton != null) {
+        mSelectedColorValue = colorValue;
 
+        if (mSelectColorButton == null) {
+            String message = "Error: mSelectedColorButton not initialized";
+            Toast toast = Toast.makeText(getActivity(), message, Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        }
+        else {
             Resources res = getActivity().getResources();
             int drawableId = getButtonDrawableId(colorValue, res);
             int buttonTextColorValue = getButtonTextColorValue(drawableId);
@@ -93,9 +112,11 @@ public class MainFragment
                 mSelectColorButton.setTextColor(buttonTextColorValue);
             }
             else {
-                String message = "No drawable XML found for color #";
+                String message = "No drawable XML found for color ";
                 message += res.getColor(colorValue);
-                Log.e(LOG_TAG, message);
+                Toast toast = Toast.makeText(getActivity(), message, Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
             }
         }
     }
