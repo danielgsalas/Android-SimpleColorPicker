@@ -1,11 +1,11 @@
 package com.appstoremarketresearch.simplecolorpicker.controller;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.appstoremarketresesearch.simplecolorpicker.R;
+import com.appstoremarketresearch.simplecolorpicker.R;
 
 public class ColorPickerActivity extends AppCompatActivity {
 
