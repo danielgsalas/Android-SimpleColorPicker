@@ -1,13 +1,18 @@
 package com.appstoremarketresearch.simplecolorpicker.controller;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.appstoremarketresearch.simplecolorpicker.R;
 
-public class ColorPickerActivity extends AppCompatActivity {
+/*
+ * Change extension from AppCompatActivity to Activity, otherwise get:
+ * java.lang.IllegalStateException: You need to use a Theme.AppCompat
+ * theme (or descendant) with this activity.
+ */
+public class ColorPickerActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
