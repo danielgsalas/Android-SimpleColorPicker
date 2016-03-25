@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     public void showColorValues(View view) {
 
         int colorIntValue = getSelectedColorIntValue();
-        String colorHex = String.format("#%06X", (0xFFFFFF & colorIntValue));
+        String colorHex = "#" + Integer.toHexString(colorIntValue).toUpperCase();
 
         String message = "Color int = " + colorIntValue;
         message += "\nColor hex = " + colorHex;
