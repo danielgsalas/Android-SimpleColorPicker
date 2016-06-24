@@ -12,13 +12,14 @@ import android.view.View;
 import com.appstoremarketresearch.simplecolorpicker.R;
 import com.appstoremarketresearch.simplecolorpicker.event.ColorPickerEventType;
 
+import java.lang.reflect.Method;
+
 /*
  * Change extension from AppCompatActivity to Activity, otherwise get:
  * java.lang.IllegalStateException: You need to use a Theme.AppCompat
  * theme (or descendant) with this activity.
  */
 public class ColorPickerActivity extends Activity {
-
 
     /**
      * onColorSelected
@@ -31,10 +32,20 @@ public class ColorPickerActivity extends Activity {
 
             int colorValue = ((ColorDrawable)background).getColor();
 
-            Intent intent = new Intent();
-            intent.setAction(ColorPickerEventType.COLOR_SELECTED.name());
-            intent.putExtra("colorValue", colorValue);
-            this.sendBroadcast(intent);
+            Intent requestIntent = getIntent();
+            String responseMethodName = requestIntent.getStringExtra("responseMethod");
+
+            Intent responseIntent = new Intent();
+            responseIntent.setAction(ColorPickerEventType.COLOR_SELECTED.name());
+            responseIntent.putExtra("colorValue", colorValue);
+
+            if (responseMethodName == null ||
+                responseMethodName.equals("sendBroadcast")) {
+                sendBroadcast(responseIntent);
+            }
+            else {
+                setResult(RESULT_OK, responseIntent);
+            }
 
             // close the color picker
             this.finish();

@@ -44,6 +44,49 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onActivityResult (
+        int requestCode,
+        int resultCode,
+        Intent data) {
+
+        int hashCode = ColorPickerActivity.class.getName().hashCode();
+
+        if (resultCode == RESULT_OK &&
+            requestCode == Math.abs(hashCode)) {
+
+            Bundle extras = data.getExtras();
+
+            if (extras != null) {
+
+                int colorValue = extras.getInt("colorValue");
+
+                if (colorValue != 0) {
+
+                    FragmentManager fm = getSupportFragmentManager();
+                    Fragment fragment = fm.findFragmentById(R.id.main_fragment);
+
+                    if (fragment instanceof MainFragment) {
+                        int buttonId = R.id.select_color_button_by_reqres;
+                        ((MainFragment)fragment).onColorSelected(colorValue, buttonId);
+                    }
+                    else if (fragment == null) {
+                        Log.e(LOG_TAG, "Found no Fragment with id=R.id.main_fragment");
+                    }
+                    else {
+                        Log.e(LOG_TAG, "Found wrong Fragment type: " + fragment.getClass().getSimpleName());
+                    }
+                }
+                else {
+                    Log.e(LOG_TAG, "Extras have no color value");
+                }
+            }
+            else {
+                Log.e(LOG_TAG, "Intent has no Extras");
+            }
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -91,8 +134,25 @@ public class MainActivity extends AppCompatActivity {
      * showSimpleColorPicker
      */
     public void showSimpleColorPicker(View view) {
+
         Class nextActivity = ColorPickerActivity.class;
         Intent intent = new Intent(this, nextActivity);
-        this.startActivity(intent);
+        boolean startActivityForResult = true;
+
+        if (view != null && view.getTag() != null) {
+            String responseMethod = view.getTag().toString();
+            intent.putExtra("responseMethod", responseMethod);
+
+            if (responseMethod.equals("sendBroadcast")) {
+                this.startActivity(intent);
+                startActivityForResult = false;
+            }
+        }
+
+        if (startActivityForResult) {
+            int hashCode = ColorPickerActivity.class.getName().hashCode();
+            int requestCode = Math.abs(hashCode);
+            this.startActivityForResult(intent, requestCode, null);
+        }
     }
 }

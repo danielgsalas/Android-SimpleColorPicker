@@ -22,7 +22,7 @@ public class MainFragment
     extends Fragment
     implements ColorPickerEventListener {
 
-    private Button mSelectColorButton;
+    private View mRootView;
 
     /**
      * Save the selected color value to avoid the difficulty of trying
@@ -90,12 +90,26 @@ public class MainFragment
         return mSelectedColorValue;
     }
 
+    /**
+     * onColorSelected - called by pub/sub
+     */
     @Override
     public void onColorSelected(int colorValue) {
+        onColorSelected(colorValue, R.id.select_color_button_by_pubsub);
+    }
+
+    /**
+     * onColorSelected - called by pub/sub or request/response
+     */
+    public void onColorSelected(
+        int colorValue,
+        int buttonId) {
 
         mSelectedColorValue = colorValue;
 
-        if (mSelectColorButton == null) {
+        Button button = (Button) mRootView.findViewById(buttonId);
+
+        if (button == null) {
             String message = "Error: mSelectedColorButton not initialized";
             Toast toast = Toast.makeText(getActivity(), message, Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
@@ -108,8 +122,8 @@ public class MainFragment
 
             if (drawableId > 0) {
                 // update the button's background
-                mSelectColorButton.setBackgroundResource(drawableId);
-                mSelectColorButton.setTextColor(buttonTextColorValue);
+                button.setBackgroundResource(drawableId);
+                button.setTextColor(buttonTextColorValue);
             }
             else {
                 String message = "No drawable XML found for color ";
@@ -127,15 +141,12 @@ public class MainFragment
         ViewGroup container,
         Bundle savedInstanceState) {
 
-        View view =  inflater.inflate(R.layout.fragment_main, container, false);
-
-        int buttonId = R.id.select_color_button;
-        mSelectColorButton = (Button) view.findViewById(buttonId);
+        mRootView =  inflater.inflate(R.layout.fragment_main, container, false);
 
         // subscribe for event notification
         ColorPickerEventNotifier.subscribe(this);
 
-        return view;
+        return mRootView;
     }
 
     @Override

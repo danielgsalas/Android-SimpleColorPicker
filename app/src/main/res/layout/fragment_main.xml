@@ -9,13 +9,26 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".MainActivityFragment">
 
-    <Button android:id="@+id/select_color_button"
+    <Button
+        android:id="@+id/select_color_button_by_pubsub"
         android:background="@drawable/color_button_grey"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
         android:onClick="showSimpleColorPicker"
-        android:text="@string/select_color_button_text"
+        android:tag="sendBroadcast"
+        android:text="@string/select_color_button_by_pubsub_text"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/select_color_button_by_reqres"
+        android:background="@drawable/color_button_grey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:onClick="showSimpleColorPicker"
+        android:tag="setResult"
+        android:text="@string/select_color_button_by_reqres_text"
         android:textStyle="bold" />
 
     <Button android:id="@+id/show_color_values_button"
